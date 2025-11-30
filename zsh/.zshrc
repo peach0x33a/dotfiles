@@ -24,7 +24,11 @@ zicompinit # <- https://wiki.zshell.dev/docs/guides/commands
 
 DISABLE_MAGIC_FUNCTIONS=true
 setopt nonomatch
+
+# PATH
 export PATH=$PATH:$HOME/.local/bin
+export PATH="$PATH:/home/peach0x33a/bin"
+export PATH="$PATH:~/go/bin"
 
 # 常用愿望一次满足
 # z-a-meta-plugins 可以为你提供一些打包好的插件
@@ -97,4 +101,5 @@ ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_V
 
 
 #export GOOGLE_CLOUD_PROJECT="project2-470516"
-export PATH="$PATH:/home/peach0x33a/bin"
+
+alias ssh="kitten ssh"
