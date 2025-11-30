@@ -1,0 +1,253 @@
+/* -- Global rules -- */
+* {
+  border: none;
+  /* font-family: "MiSans VF"; */
+  font-family: "JetbrainsMono Nerd Font";
+  font-size: 12px;
+  min-height: 10px;
+}
+
+window#waybar {
+  background: rgba(0,0,0, 0);
+  /* background: rgba(34, 36, 54, 0.6); */
+  color: #fff;
+}
+
+window#waybar.hidden {
+  opacity: 0.2;
+}
+
+/* - Genera rules for visible modules -- */
+#custom-sysicon,
+#clock,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#idle_inhibitor,
+#pulseaudio,
+#network,
+#bluetooth,
+#backlight,
+#battery,
+#keyboard-state,
+#power-profiles-daemon,
+#mpd,
+#workspaces,
+#language {
+  color: #161320;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  transition: none;
+}
+
+/* Separation to the left */
+#clock,
+#custom-sysicon,
+#cpu,
+#idle_inhibitor {
+  margin-left: 5px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+/* Separation to the rigth */
+#clock,
+#mpd,
+#workspaces,
+#battery {
+  margin-right: 5px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+/* -- Specific styles -- */
+
+/* Modules left */
+#custom-sysicon,
+#workspaces {
+  font-size: 20px;
+  color: #89B4FA;
+  background: #161320;
+  padding-right: 17px;
+}
+
+#clock {
+  background: #ABE9B3;
+}
+
+#cpu {
+  background: #96CDFB;
+}
+
+#memory {
+  background: #DDB6F2;
+}
+
+#disk {
+  background: #F5C2E7;
+}
+
+#temperature {
+  background: #F8BD96;
+}
+#backlight {
+    background-color: #90b1b1;
+}
+
+#bluetooth {
+  background: #0082FC;
+}
+#battery {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+#battery.charging, #battery.plugged {
+    color: #ffffff;
+    background-color: #26A65B;
+}
+/* Modules center */
+#workspaces {
+  /* background: rgba(0, 0, 0, 0.5); */
+  /* border-radius: 10px; */
+  margin: 6px 5px;
+  margin-left: 0px;
+  padding: 0px 6px;
+}
+
+#workspaces button {
+  color: #B5E8E0;
+  background: transparent;
+  /* padding: 6px 6px; */
+  transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
+}
+
+#workspaces button.occupied {
+  color: #A6E3A1;
+}
+
+#workspaces button.active {
+  color: #89B4FA;
+  font-weight: 900;
+  /* text-shadow: 0 0 4px #ABE9B3; */
+}
+
+#workspaces button:hover {
+  /* color: #89B4FA; */
+}
+
+#workspaces button.active:hover {}
+
+/* Modules right */
+#taskbar {
+  background: transparent;
+  border-radius: 10px;
+  padding: 0px 5px;
+  margin: 6px 5px;
+}
+
+#taskbar button {
+  padding: 0px 5px;
+  margin: 0px 3px;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+
+#taskbar button.active {
+  background: rgba(34, 36, 54, 0.5);
+}
+
+#taskbar button:hover {
+  background: rgba(34, 36, 54, 0.5);
+}
+
+#idle_inhibitor {
+  background: #B5E8E0;
+  padding-right: 15px;
+}
+
+#pulseaudio {
+  min-width: 55px;
+  color: #1A1826;
+  background: #F5E0DC;
+}
+
+#pulseaudio-slider {
+  color: #1A1826;
+  background: #E8A2AF;
+  min-width: 50px;
+}
+
+#pulseaudio-slider slider {}
+
+
+#network {
+  background: #CBA6F7;
+  padding-right: 13px;
+}
+
+#language {
+  background: #A6E3A1;
+  padding-right: 15px;
+}
+
+#keyboard-state {
+    background: #97e1ad;
+    /* color: #000000; */
+    /* padding: 0 0px; */
+    /* margin: 0 5px; */
+    min-width: 16px;
+}
+
+#keyboard-state > label {
+    padding: 0 5px;
+}
+
+#keyboard-state > label.locked {
+    background: rgba(0, 0, 0, 0.1);
+}
+#power-profiles-daemon {
+    padding-right: 15px;
+}
+
+#power-profiles-daemon.performance {
+    background-color: #f53c3c;
+    color: #ffffff;
+}
+
+#power-profiles-daemon.balanced {
+    background-color: #2980b9;
+    color: #ffffff;
+}
+
+#power-profiles-daemon.power-saver {
+    background-color: #2ecc71;
+    color: #000000;
+}
+#mpd {
+    background-color: #66cc99;
+    color: #2a5c45;
+}
+
+#mpd.disconnected {
+    background-color: #f53c3c;
+}
+
+#mpd.stopped {
+    background-color: #90b1b1;
+}
+
+#mpd.paused {
+    background-color: #51a37a;
+}
+
+/* === Optional animation === */
+@keyframes blink {
+  to {
+    background-color: #BF616A;
+    color: #B5E8E0;
+  }
+}
