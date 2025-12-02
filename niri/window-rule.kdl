@@ -1,0 +1,16 @@
+window-rule {
+    // This app-id regular expression will work for both:
+    // - host Firefox (app-id is "firefox")
+    // - Flatpak Firefox (app-id is "org.mozilla.firefox")
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    match app-id=r#""# title="^画中画$"
+    match app-id=r#"XEyes"# title="xeyes"
+    match app-id=r#"QQ"# title="语音通话"
+    open-floating true
+}
+
+// window-rule{
+//     match app-id=r#"brave-browser"# title=""
+    
+//     open-fullscreen true
+// }

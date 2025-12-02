@@ -1,0 +1,5 @@
+// spawn-at-startup "swww-daemon"
+spawn-at-startup "QT_QPA_PLATFORMTHEME=gtk3" "qs" "-c" "noctalia-shell"
+// spawn-at-startup "waybar"
+spawn-at-startup "fcitx5"
+spawn-at-startup "~/.config/niri/scripts/swayidle.sh"

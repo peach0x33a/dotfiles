@@ -6,6 +6,15 @@
 // Input device configuration.
 // Find the full list of options on the wiki:
 // https://yalter.github.io/niri/Configuration:-Input
+
+// INCLUDE MY CONFIG //
+include "myniri.kdl"
+include "window-rule.kdl"
+include "outputs.kdl"
+include "startup.kdl"
+include "noctalia.kdl"
+// END FOR MY CONFIG INCLUDE //
+
 input {
     keyboard {
         xkb {
@@ -61,52 +70,12 @@ input {
         // middle-emulation
     }
 
-    // Uncomment this to make the mouse warp to the center of newly focused windows.
-    warp-mouse-to-focus
-
-    // Focus windows and outputs automatically when moving the mouse into them.
-    // Setting max-scroll-amount="0%" makes it work only on windows already fully on screen.
-    focus-follows-mouse max-scroll-amount="0%"
-
-    disable-power-key-handling
 }
 
 // switch-events {
 //     lid-close { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "lockScreen" "lock"; }
 //     lid-open { spawn "wlr-randr --output eDP-2 --on"; }
 // }
-
-environment{
-   // QT_QPA_PLATFORMTHEME "niri"
-   
-   QT_QPA_PLATFORMTHEME "qt6ct"
-   }
-// You can configure outputs by their name, which you can find
-// by running `niri msg outputs` while inside a niri instance.
-// The built-in laptop monitor is usually called "eDP-1".
-// Find more information on the wiki:
-// https://yalter.github.io/niri/Configuration:-Outputs
-// Remember to uncomment the node by removing "/-"!
-
-// 测试用的水平布局
-
-// 左侧显示器
-output "PNP(SAC) G52 0000000000000" {
-    mode "2560x1440@179.999"
-    scale 1.25
-    transform "normal"
-    position x=0 y=0
-}
-
-output "eDP-2" {
-    mode "1920x1080@144.063"
-    scale 1.15
-    transform "normal"
-    // 关键：这里的 y 坐标必须是上方显示器的 物理高度 / 缩放比例
-    // 1440 / 1.25 = 1152
-    position x=0 y=1152
-}
-
 
 // Settings that influence how windows are positioned and sized.
 // Find more information on the wiki:
@@ -161,7 +130,7 @@ layout {
         // off
 
         // How many logical pixels the ring extends out from the windows.
-        width 2
+        width 4
 
         // Colors can be set in a variety of ways:
         // - CSS named colors: "red"
@@ -263,20 +232,6 @@ layout {
         // bottom 64
     }
 }
-
-// Add lines like this to spawn processes at startup.
-// Note that running niri as a session supports xdg-desktop-autostart,
-// which may be more convenient to use.
-// See the binds section below for more spawn examples.
-
-// This line starts waybar, a commonly used bar for Wayland compositors.
-spawn-at-startup "swww-daemon"
-spawn-at-startup "QT_QPA_PLATFORMTHEME=gtk3" "qs" "-c" "noctalia-shell"
-// spawn-at-startup "waybar"
-spawn-at-startup "fcitx5"
-spawn-at-startup "~/.config/niri/scripts/swayidle.sh"
-
-
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
@@ -285,12 +240,6 @@ hotkey-overlay {
     skip-at-startup
 }
 
-// Uncomment this line to ask the clients to omit their client-side decorations if possible.
-// If the client will specifically ask for CSD, the request will be honored.
-// Additionally, clients will be informed that they are tiled, removing some client-side rounded corners.
-// This option will also fix border/focus ring drawing behind some semitransparent windows.
-// After enabling or disabling this, you need to restart the apps for this to take effect.
-prefer-no-csd
 
 // You can change the path where screenshots are saved.
 // A ~ at the front will be expanded to the home directory.
@@ -326,18 +275,6 @@ window-rule {
 }
 
 // Open the Firefox picture-in-picture player as floating by default.
-window-rule {
-    // This app-id regular expression will work for both:
-    // - host Firefox (app-id is "firefox")
-    // - Flatpak Firefox (app-id is "org.mozilla.firefox")
-    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
-    match app-id=r#""# title="^画中画$"
-    match app-id=r#"XEyes"# title="xeyes"
-    match app-id=r#"QQ"# title="语音通话"
-    open-floating true
-}
-
-
 
 // Example: block out two password managers from screen capture.
 // (This example rule is commented out with a "/-" in front.)
@@ -357,6 +294,7 @@ window-rule {
     geometry-corner-radius 8
     clip-to-geometry true
 }
+
 
 binds {
     // Keys consist of modifiers separated by + signs, followed by an XKB key name
@@ -527,12 +465,13 @@ binds {
     // Mod+R { switch-preset-column-width-back; }
     Mod+Shift+R { switch-preset-window-height; }
     Mod+Ctrl+R { reset-window-height; }
+
     Mod+F { maximize-column; }
     Mod+Shift+F { fullscreen-window; }
 
     // Expand the focused column to space not taken up by other fully visible columns.
     // Makes the column "fill the rest of the space".
-    Mod+Ctrl+F { expand-column-to-available-width; }
+    // Mod+Ctrl+F { expand-column-to-available-width; }
 
     Mod+C { center-column; }
 
@@ -568,8 +507,8 @@ binds {
     // a matching layout switch hotkey configured in xkb options above.
     // Having both at once on the same hotkey will break the switching,
     // since it will switch twice upon pressing the hotkey (once by xkb, once by niri).
-    // Mod+Space       { switch-layout "next"; }
-    // Mod+Shift+Space { switch-layout "prev"; }
+    Mod+Ctrl+Space  { switch-layout "next"; }
+    Mod+Shift+Space { switch-layout "prev"; }
 
     // Print { screenshot; }
     // Ctrl+Print { screenshot-screen; }
@@ -593,68 +532,5 @@ binds {
     // moving the mouse or pressing any other key.
     Mod+Shift+P { power-off-monitors; }
 
-    // CREATE BY MYSELF //
-        // 常用快捷键
-
-    Mod+F1      hotkey-overlay-title="启动一个输入法?: fcitx5" { spawn-sh "pkill fcitx5 || true && fcitx5"; }
-    // Mod+F2      hotkey-overlay-title="启动一个waybar?: waybar" { spawn-sh "pkill waybar || true && waybar"; }
-    Mod+T       hotkey-overlay-title="打开一个终端?: kitty" { spawn "kitty" "--hold" "fastfetch"; }
-    Mod+E       hotkey-overlay-title="打开一个文件?: dolphin" { spawn "dolphin"; }
-
-    Mod+Ctrl+V  hotkey-overlay-title="Noctalia 剪贴板" { spawn-sh "qs -c noctalia-shell ipc call launcher clipboard"; }
-    Mod+D       hotkey-overlay-title="Noctalia 启动器" { spawn-sh "qs -c noctalia-shell ipc call launcher toggle"; }
-    Super+Alt+L hotkey-overlay-title="Noctalia 锁定屏幕" { spawn-sh "qs -c noctalia-shell ipc call lockScreen lock"; }
-
-
-    // 媒体控制 //
-
-    Ctrl+Alt+Space  { spawn-sh "playerctl --all-players play-pause"; }
-    Ctrl+Alt+Left   { spawn-sh "playerctl --all-players previous"; }
-    Ctrl+Alt+Right  { spawn-sh "playerctl --all-players next"; }
-    
-    XF86AudioPlay  { spawn-sh "playerctl --all-players play"; }
-    XF86AudioPause  { spawn-sh "playerctl --all-players pause"; }
-    XF86AudioPrev   { spawn-sh "playerctl --all-players previous"; }
-    XF86AudioNext  { spawn-sh "playerctl --all-players next"; }
-    
-    // 默认音频输出 // 
-    XF86AudioRaiseVolume    allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+"; }
-    XF86AudioLowerVolume    allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
-    XF86AudioMute           allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
-    // 触摸板 //
-    Mod+TouchpadScrollDown { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.02+"; }
-    Mod+TouchpadScrollUp   { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.02-"; }
-
-    // 麦克风 //
-    XF86AudioMicMute           allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
-    Alt+XF86AudioMute           allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
-    Alt+XF86AudioRaiseVolume    allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 0.1+"; }
-    Alt+XF86AudioLowerVolume    allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 0.1-"; }
-
-    // 亮度调节按键
-    XF86MonBrightnessUp     allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+5%"; }
-    XF86MonBrightnessDown   allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "5%-"; }
-    // Shift+键盘旋钮调节亮度 //
-    Shift+XF86AudioRaiseVolume allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+5%"; }
-    Shift+XF86AudioLowerVolume allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "5%-"; }
-
-    // 关机键替换为noctalia shell的会话菜单
-    XF86PowerOff allow-when-locked=true { spawn-sh "qs -c noctalia-shell ipc call sessionMenu toggle"; }
-
-    // 截图快捷键
-    Print               { spawn "~/.config/niri/scripts/screenshot.sh" "screenshot"; }
-    Ctrl+Print          { spawn "~/.config/niri/scripts/screenshot.sh"  "screenshot-screen"; }
-    Alt+Print           { spawn "~/.config/niri/scripts/screenshot.sh"  "screenshot-window"; }
-    
-    Ctrl+Alt+A          { spawn "~/.config/niri/scripts/screenshot.sh" "screenshot"; }
-    Mod+Alt+A           { spawn "~/.config/niri/scripts/screenshot.sh" "screenshot-window"; }
-    Ctrl+XF86AudioMute  { spawn "~/.config/niri/scripts/screenshot.sh"  "screenshot-screen"; }
-    
-
-    // 使用wl-mirror镜像内置屏幕(窗口化)
-    Mod+F12 hotkey-overlay-title="创建屏幕eDP-2的镜像窗口" { spawn "wl-mirror" "eDP-2"; }
-    
-
-    // END FOR CREATE BY MYSELF //
 
 }

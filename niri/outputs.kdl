@@ -1,0 +1,25 @@
+// You can configure outputs by their name, which you can find
+// by running `niri msg outputs` while inside a niri instance.
+// The built-in laptop monitor is usually called "eDP-1".
+// Find more information on the wiki:
+// https://yalter.github.io/niri/Configuration:-Outputs
+// Remember to uncomment the node by removing "/-"!
+
+// 测试用的水平布局
+
+// 左侧显示器
+output "PNP(SAC) G52 0000000000000" {
+    mode "2560x1440@179.999"
+    scale 1.25
+    transform "normal"
+    position x=0 y=0
+}
+
+output "eDP-2" {
+    mode "1920x1080@144.063"
+    scale 1.15
+    transform "normal"
+    // 关键：这里的 y 坐标必须是上方显示器的 物理高度 / 缩放比例
+    // 1440 / 1.25 = 1152
+    position x=0 y=1152
+}

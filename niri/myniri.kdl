@@ -1,0 +1,95 @@
+environment{
+   // QT_QPA_PLATFORMTHEME "niri"
+   QT_QPA_PLATFORMTHEME "qt6ct"
+   }
+
+binds{
+
+    // CREATE BY MYSELF //
+    // 常用快捷键
+
+    Mod+F1      hotkey-overlay-title="启动一个输入法?: fcitx5" { spawn-sh "pkill fcitx5 || true && fcitx5"; }
+    // Mod+F2      hotkey-overlay-title="启动一个waybar?: waybar" { spawn-sh "pkill waybar || true && waybar"; }
+    Mod+T       hotkey-overlay-title="打开一个终端?: kitty" { spawn "kitty" "--hold" "fastfetch"; }
+    Mod+E       hotkey-overlay-title="打开一个文件?: dolphin" { spawn "dolphin"; }
+
+    Mod+Ctrl+V  hotkey-overlay-title="Noctalia 剪贴板" { spawn-sh "qs -c noctalia-shell ipc call launcher clipboard"; }
+    Mod+D       hotkey-overlay-title="Noctalia 启动器" { spawn-sh "qs -c noctalia-shell ipc call launcher toggle"; }
+    Super+Alt+L hotkey-overlay-title="Noctalia 锁定屏幕" { spawn-sh "qs -c noctalia-shell ipc call lockScreen lock"; }
+
+
+    // 媒体控制 //
+
+    Ctrl+Alt+Space  { spawn-sh "playerctl --all-players play-pause"; }
+    Ctrl+Alt+Left   { spawn-sh "playerctl --all-players previous"; }
+    Ctrl+Alt+Right  { spawn-sh "playerctl --all-players next"; }
+    
+    XF86AudioPlay  { spawn-sh "playerctl --all-players play"; }
+    XF86AudioPause  { spawn-sh "playerctl --all-players pause"; }
+    XF86AudioPrev   { spawn-sh "playerctl --all-players previous"; }
+    XF86AudioNext  { spawn-sh "playerctl --all-players next"; }
+    
+    // 默认音频输出 // 
+    XF86AudioRaiseVolume    allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+"; }
+    XF86AudioLowerVolume    allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
+    XF86AudioMute           allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
+    // 触摸板 //
+    Mod+TouchpadScrollDown { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.02+"; }
+    Mod+TouchpadScrollUp   { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.02-"; }
+
+    // 麦克风 //
+    XF86AudioMicMute           allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+    Alt+XF86AudioMute           allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+    Alt+XF86AudioRaiseVolume    allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 0.1+"; }
+    Alt+XF86AudioLowerVolume    allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 0.1-"; }
+
+    // 亮度调节按键
+    XF86MonBrightnessUp     allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+5%"; }
+    XF86MonBrightnessDown   allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "5%-"; }
+    // Shift+键盘旋钮调节亮度 //
+    Shift+XF86AudioRaiseVolume allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+5%"; }
+    Shift+XF86AudioLowerVolume allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "5%-"; }
+
+    // 关机键替换为noctalia shell的会话菜单
+    XF86PowerOff allow-when-locked=true { spawn-sh "qs -c noctalia-shell ipc call sessionMenu toggle"; }
+
+    // 截图快捷键
+    Print               { spawn "~/.config/niri/scripts/screenshot.sh" "screenshot"; }
+    Ctrl+Print          { spawn "~/.config/niri/scripts/screenshot.sh"  "screenshot-screen"; }
+    Alt+Print           { spawn "~/.config/niri/scripts/screenshot.sh"  "screenshot-window"; }
+    
+    Ctrl+Alt+A          { spawn "~/.config/niri/scripts/screenshot.sh" "screenshot"; }
+    Mod+Alt+A           { spawn "~/.config/niri/scripts/screenshot.sh" "screenshot-window"; }
+    Ctrl+XF86AudioMute  { spawn "~/.config/niri/scripts/screenshot.sh"  "screenshot-screen"; }
+    
+
+    // 使用wl-mirror镜像内置屏幕(窗口化)
+    Mod+F12 hotkey-overlay-title="创建屏幕eDP-2的镜像窗口" { spawn "wl-mirror" "eDP-2"; }
+    
+
+    Mod+Ctrl+F { maximize-window-to-edges; }
+
+    // END FOR CREATE BY MYSELF //
+
+}
+
+input{
+    focus-follows-mouse max-scroll-amount="0%"
+    disable-power-key-handling
+    warp-mouse-to-focus
+
+}
+
+layout {
+    gaps 8
+    focus-ring {
+        width 4
+        }
+}
+
+// Uncomment this line to ask the clients to omit their client-side decorations if possible.
+// If the client will specifically ask for CSD, the request will be honored.
+// Additionally, clients will be informed that they are tiled, removing some client-side rounded corners.
+// This option will also fix border/focus ring drawing behind some semitransparent windows.
+// After enabling or disabling this, you need to restart the apps for this to take effect.
+prefer-no-csd
